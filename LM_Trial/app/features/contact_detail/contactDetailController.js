@@ -1137,8 +1137,6 @@ app.controller('contactDetailController', ['$scope', 'sharedService', 'contactDe
             getFamilyInformationOnly();
             $('#client').modal('hide');
         }, function (error, errorStatus) {
-            if(errorStatus=='400')
-
             //error message if needed
         })
     };
