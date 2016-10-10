@@ -1,0 +1,671 @@
+﻿<div class="wrap-content container angular-views-margin" id="container">
+    <div class="col-md-12">
+            <ol class="breadcrumb breadcrumb-arrow">
+                <li><a class="cursor-pointer" data-ng-click="gotoDetail('/contact')"><img class="icon-size-10" src="assets/crm_icons/contacts.svg" /> Contact</a></li>
+                <li><a class="cursor-pointer">{{familyInfo.LastName}} {{familyInfo.FirstName}}</a></li>
+                <li class="active no-display"><span>Data</span></li>
+            </ol>
+    </div>
+    <div class="col-md-12 margin-bottom-15">
+        <h2 class="inline-table no-margin">
+            {{familyInfo.LastName}} ({{familyInfo.FirstName}})
+            <button class="btn btn-primary btn-xs margin-right-10"><img class="icon-size-10" src="assets/crm_icons/new_email.svg" /> Send Email</button>
+            <button class="btn btn-azure btn-xs margin-right-10"><img class="icon-size-10" src="assets/crm_icons/new_mail.svg" /> Send Mail</button>
+            <button class="btn btn-dark-purple btn-xs margin-right-10"><img class="icon-size-10" src="assets/crm_icons/print.svg" /> Print Summary</button>
+            <span style="font-size:14px">Last Updated Yesterday June 4, 2016</span>
+        </h2>
+    </div>
+    <div class="col-md-12">
+
+        <!--Tabs-->
+        <div class="col-md-8">
+            <div class="panel panel-white">
+                <div class="panel-body">
+                    <div class="tabbable">
+                        <ul id="clientTab" class="nav nav-tabs">
+                            <li data-ng-class="{'active':currentTab=='Summary'}">
+                                <a data-ng-click="setCurrentTab('Summary')" class="cursor-pointer"> Summary </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Clients'}">
+                                <a data-ng-click="setCurrentTab('Clients')" class="cursor-pointer"> Clients </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Loans'}">
+                                <a data-ng-click="setCurrentTab('Loans')" class="cursor-pointer"> Loans </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Insurance'}">
+                                <a data-ng-click="setCurrentTab('Insurance')" class="cursor-pointer"> Insurance </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Financials'}">
+                                <a data-ng-click="setCurrentTab('Financials')" class="cursor-pointer"> Financials </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Workflow'}">
+                                <a data-ng-click="setCurrentTab('Workflow')" class="cursor-pointer"> Workflow </a>
+                            </li>
+                            <li data-ng-class="{'active':currentTab=='Records'}">
+                                <a data-ng-click="setCurrentTab('Records')" class="cursor-pointer"> Records </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in" id="summaryTab" data-ng-class="{'active':currentTab=='Summary'}">
+                                <!--Summary Tab Content-->
+                                <div class="row padding-10">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-white col-md-5 col-xs-12">
+                                            <div class="panel-body padding-5">
+                                                <h4 class="margin-top-10">Clients<a class="cursor-pointer pull-right font-size-10 links">VIEW DETAILS <i class="ti-angle-double-right"></i></a></h4>
+                                                <table class="table table-bordered title-th">
+                                                    <tr>
+                                                        <th>ADULTS</th>
+                                                        <td><div data-ng-repeat="value in adultsList">{{value}}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>CHILDREN</th>
+                                                        <td><span class="text-muted" data-ng-hide="childList.length>0">No Children Listed</span><div data-ng-repeat="value in childList">{{value}}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>PHONE</th>
+                                                        <td><div data-ng-repeat="data in phoneList"><span style="font-weight:bold">{{data.Name}}</span><br /><span data-ng-repeat="value in data.Phone">{{value.Number}}, </span></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>EMAIL</th>
+                                                        <td><div data-ng-repeat="data in emailList"><span style="font-weight:bold">{{data.Name}}</span><div data-ng-repeat="value in data.Email">{{value.EmailAddress}}</div></div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>ADDRESS</th>
+                                                        <td>{{addresses}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 col-xs-12 padding-right-0">
+                                            <div class="panel panel-white col-md-12 col-xs-12">
+                                                <div class="panel-body padding-5">
+                                                    <h4 class="margin-top-10">Records<a class="cursor-pointer pull-right font-size-10 links">VIEW DETAILS <i class="ti-angle-double-right"></i></a></h4>
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <th><i class="fa fa-calendar" /> Date</th>
+                                                            <th><i class="fa fa-laptop" /> Transaction</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>02 June 2016</td>
+                                                            <td>Referred to Stuart McLeod</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-white col-md-12 col-xs-12">
+                                                <div class="panel-body padding-5">
+                                                    <h4 class="margin-top-10">Loans<a class="cursor-pointer pull-right font-size-10 links">VIEW DETAILS <i class="ti-angle-double-right"></i></a></h4>
+
+                                                    <table class="table upper-bordered">
+                                                        <tr data-ng-hide="loanList.length>0">
+                                                            <th colspan="3" class="text-center">No Loans Recorded</th>
+                                                        </tr>
+                                                        <tr data-ng-repeat="data in loanList">
+                                                            <th>{{data.LoanAmount | currency}}</th>
+                                                            <td>{{data.LoanStatus}}</td>
+                                                            <td class="text-center"><a class="cursor-pointer links">Submitted to Lender</a></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--Summary Tab Content-->
+                            </div>
+                            <div class="tab-pane fade in" id="clientTab" data-ng-class="{'active':currentTab=='Clients'}">
+                               <div class="row padding-10">
+                                   <div class="col-md-12">
+                                       <h4 class="pull-left">Clients <span class="badge">{{familyList.length}}</span></h4>
+                                       <div class="pull-right">
+                                           <button class="btn btn-success"><i class="ti-plus"></i> Add Existing</button>
+                                           <button class="btn btn-dark-purple" data-toggle="modal" data-target="#client"><i class="ti-plus"></i> Add Client</button>
+                                       </div>
+                                   </div>
+                                   <div class="col-md-12 margin-top-10">
+                                       <table class="table table-bordered table-striped cursor-pointer">
+                                           <tr>
+                                               <th>Name</th>
+                                               <th>Preferred Name</th>
+                                               <th>DOB</th>
+                                               <th>Gender</th>
+                                               <th>Smoker</th>
+                                               <th>Phone</th>
+                                               <th class="no-border-right">Role</th>
+                                               <th class="no-border-left no-border-right"></th>
+                                               <th class="no-border-left"></th>
+                                           </tr>
+                                           <tr data-ng-repeat="data in familyList">
+                                               <td>{{data.FirstName}} {{data.LastName}}</td>
+                                               <td>{{data.PreferredName}}</td>
+                                               <td>{{data.DOB | date:'dd/M/yyyy'}}</td>
+                                               <td>{{data.Gender}}</td>
+                                               <td>{{data.SmokerStatus}}</td>
+                                               <td>
+                                                   <div data-ng-repeat="value in data.Phone"><i data-ng-class="{'ti-mobile':value.Type=='Mobile','ti-bag':value.Type=='Work','ti-home':value.Type=='Home'}"></i> {{value.Number}}</div>
+                                               </td>
+                                               <td class="no-border-right">{{data.Role}}</td>
+                                               <td style="width:4px" class="no-border-left no-border-right"><a class="cursor-pointer"><i class="fa fa-edit"></i></a></td>
+                                               <td style="width:4px" class="no-border-left"><a class="cursor-pointer"><i class="fa fa-trash"></i></a></td>
+                                           </tr>
+                                       </table>
+                                   </div>
+                               </div> 
+                                
+                                <div class="row padding-10">
+                                    <div class="col-md-12">
+                                        <h4 class="pull-left">Relationship <span class="badge">{{relationshipList.length}}</span></h4>
+                                        <div class="pull-right">
+                                            <button class="btn btn-dark-purple"><i class="ti-plus"></i> Add Relationship</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 margin-top-10">
+                                        <div class="panel panel-light-grey text-center padding-20" data-ng-show="relationshipList.length==0">No Relationship Added</div>
+
+                                        <table class="table table-bordered table-striped cursor-pointer" data-ng-hide="relationshipList.length==0">
+                                            <tr>
+                                                <th>Entity Name</th>
+                                                <th>Entity Type</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Address</th>
+                                                <th class="no-border-left no-border-right"></th>
+                                                <th class="no-border-left"></th>
+                                            </tr>
+                                            <tr data-ng-repeat="data in relationshipList">
+                                                <td>{{data.Name}}</td>
+                                                <td>{{data.OrganisationType}}</td>
+                                                <td>
+                                                    <div data-ng-repeat="value in data.Phone"><i data-ng-class="{'ti-mobile':value.Type=='Mobile','ti-bag':value.Type=='Work','ti-home':value.Type=='Home'}"></i> {{value.Number}}</div>
+                                                </td>
+                                                <td>{{data.Email[0].EmailAddress}}</td>
+                                                <td class="no-border-right">{{data.Address[0].formatted_address}}</td>
+                                                <td style="width:4px" class="no-border-left no-border-right"><a class="cursor-pointer"><i class="fa fa-edit"></i></a></td>
+                                                <td style="width:4px" class="no-border-left"><a class="cursor-pointer"><i class="fa fa-trash"></i></a></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row padding-10">
+                                    <div class="col-md-12">
+                                        <h4 class="pull-left">Contact Information</h4>
+                                    </div>
+                                    
+                                    <div class="col-md-12 panel panel-light-grey padding-10 margin-top-10">
+                                        <div class="col-md-7">
+                                            <div class="col-md-12 border-bottom margin-bottom-10">
+                                                <h4>Home Address</h4>
+                                                <table class="table no-margin">
+                                                    <tr>
+                                                        <td class="text-right  no-border width-100">ADDRESS</td>
+                                                        <td class="no-border">
+                                                            <textarea placeholder="UNIT/FLAT NUMBER, STREET ADDRESS" class="form-control" data-ng-model="address.home" data-ng-change="setChanges()"></textarea>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="no-border"></td>
+                                                        <td class="no-border">
+                                                            <div class="checkbox check-primary clip-check checkbox-inline" data-ng-click="setCheckBox()">
+                                                                <input type="checkbox" value="1" data-ng-model="chk" data-ng-checked="chk.value" />
+                                                                <label>same as Mailing Address</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-12 border-bottom margin-bottom-10">
+                                                <h4>Mailing Address</h4>
+                                                <table class="table no-margin">
+                                                    <tr>
+                                                        <td class="text-right  no-border  width-100">ADDRESS</td>
+                                                        <td class="no-border">
+                                                            <textarea placeholder="UNIT/FLAT NUMBER, STREET ADDRESS" class="form-control" data-ng-model="address.mailing"></textarea>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table no-margin">
+                                                    <tr>
+                                                        <td class="text-right  no-border no-padding width-100"></td>
+                                                        <td class="no-border no-padding">
+                                                            <div class="checkbox clip-check check-success check-sm checkbox-inline no-margin" data-ng-click="setMarketing()">
+                                                                <input type="checkbox" value="1" data-ng-model="chkMarketing" data-ng-checked="chkMarketing.value" />
+                                                                <label>Include in marketing</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right no-padding  no-border  width-100"></td>
+                                                        <td class="no-border no-padding">
+                                                            <div class="checkbox clip-check check-success check-sm checkbox-inline no-margin" data-ng-click="setNewsLetter()">
+                                                                <input type="checkbox" value="1" data-ng-model="chkNewsletter" data-ng-checked="chkNewsletter.value" />
+                                                                <label>Include in newsletters</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="panel panel-white">
+                                                <div class="panel-body">
+                                                    <form role="form" class="form-horizontal text-extra-small">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > ADVISER </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared" data-ng-model="adviser">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > EMAIL </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared"  data-ng-model="email">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > CLIENT TYPE </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared">
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-dark-purple btn-sm"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > RATING </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared" placeholder="SELECT RATING">
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-dark-purple btn-sm"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > REVIEW MONTH </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared" placeholder="SELECT MONTH">
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-dark-purple btn-sm"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > REFERENCE CODE </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared" data-ng-model="referenceCode">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > REFERRAL CODE </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared" placeholder="SELECT TYPE">
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-dark-purple btn-sm"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" > CATEGORY </label>
+                                                            <div class="col-sm-7 padding-right-0">
+                                                                <input id="inputEmail3" class="form-control input-sm squared">
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button class="btn btn-dark-purple btn-sm"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="loansTab" data-ng-class="{'active':currentTab=='Loans'}">
+                                Loans Tab
+                            </div>
+                            <div class="tab-pane fade in" id="insuranceTab" data-ng-class="{'active':currentTab=='Insurance'}">
+                                Insurance Tab
+                            </div>
+                            <div class="tab-pane fade in" id="financialsTab" data-ng-class="{'active':currentTab=='Financials'}">
+                                Financials Tab
+                            </div>
+                            <div class="tab-pane fade in" id="workflowTab" data-ng-class="{'active':currentTab=='Workflow'}">
+                                Workflow Tab
+                            </div>
+                            <div class="tab-pane fade in" id="recordsTab" data-ng-class="{'active':currentTab=='Records'}">
+                                Records Tab
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 no-margin">
+            <!--Tags-->
+            <div class="col-md-12">
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                        <div class="panel-group accordion no-margin" id="accordion">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title" style="font-weight:bold"><a class="accordion-toggle font-size-15 Bold  white-background" data-toggle="collapse" data-parent="#accordion" data-target="#tagAccordion"><i class="fa fa-tag"></i> <span>TAGGED TO {{familyInfo.FirstName | uppercase}}</span> <i class="pull-right ti-angle-down"></i></a></h5>
+                                </div>
+                                <div id="tagAccordion" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <button class="btn btn-light-grey btn-squared btn-sm margin-right-10" data-ng-repeat="data in tagList">{{data.ActivityOwner}} <i class="fa fa-circle-o font-size-10"></i></button><button class="btn btn-green btn-squared btn-sm"><i class="ti-plus"></i> &nbspCreate Tag</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Notes-->
+            <div class="col-md-12">
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                        <div class="panel-group accordion no-margin" id="accordionNotes">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title" style="font-weight:bold"><a class="accordion-toggle font-size-15 Bold  white-background" data-toggle="collapse" data-parent="#accordionNotes" data-target="#notesAccordion"><i class="fa fa-file-text"></i> <span> NOTES <span class="badge">{{noteList.length}}</span></span> <i class="pull-right ti-angle-down"></i></a></h5>
+                                </div>
+                                <div id="notesAccordion" class="panel-collapse collapse in">
+                                    <div class="panel-body" style="border-bottom:1px solid #e2e2e4 !important">
+                                        <div data-ng-repeat="data in noteList">
+                                            <h5 class="no-margin" style="font-weight:bold">{{data.ActivityTitle | uppercase}}</h5>
+                                            <p class="text-muted">{{data.ActivityDetails}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <button class="btn btn-green btn-squared btn-sm"><i class="ti-plus"></i> &nbspCreate Note</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Task-->
+            <div class="col-md-12">
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                        <div class="panel-group accordion no-margin" id="accordionTask">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title" style="font-weight:bold"><a class="accordion-toggle font-size-15 Bold  white-background" data-toggle="collapse" data-parent="#accordionTask" data-target="#taskAccordion"><i class="ti-menu-alt"></i> <span> TASKS <span class="badge badge-danger">3</span></span> <i class="pull-right ti-angle-down"></i></a></h5>
+                                </div>
+                                <div id="taskAccordion" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+
+<!--Modal Section-->
+<div class="modal fade" tabindex="-1" role="dialog" id="client">
+    <div class="modal-dialog width-percent-80" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-light-blue pull-right" data-ng-click="saveClient()">Save Contact and Close</button>
+                <h4 class="modal-title">Add Client</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--Personal Information-->
+                        <div class="col-md-4 panel panel-light-grey">
+                            <div class="panel-body">
+                                <h4 class="border-bottom">Personal Information</h4>
+                                <form role="form" class="form-horizontal text-extra-small">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >TITLE</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Select Title" data-ng-model="client.title">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-angle-down"></i> </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right width-percent-100">
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientTitle('Mr')">Mr</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientTitle('Ms')">Ms</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientTitle('Mrs')">Mrs</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientTitle('Miss')">Miss</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientTitle('Dr')">Dr</a></li>
+                                                    </ul>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >FIRST NAME</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="client.firstName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >MIDDLE NAME</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="client.middleName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >LAST NAME</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="client.lastName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >PREFERRED NAME</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="client.preferredName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >Role</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Select Role" data-ng-model="client.role">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-angle-down"></i> </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right width-percent-100">
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientRole('Adult')">Adult</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientRole('Child')">Child</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientRole('Guarantor')">Guarantor</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientRole('Policy Owner')">Policy Owner</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientRole('Other')">Other</a></li>
+                                                    </ul>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >BIRTHDAY</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="client.dob" placeholder="mm/dd/yyyy">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >GENDER</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="btn-group btn-group-justified">
+                                                <a class="btn btn-o btn-primary btn-sm" data-ng-class="{'active':client.gender=='Male'}" data-ng-click="setGender('Male')"> Male </a>
+                                                <a class="btn btn-o btn-primary btn-sm" data-ng-class="{'active':client.gender=='Female'}" data-ng-click="setGender('Female')"> Female </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group margin-bottom-0">
+                                        <label class="col-sm-4 control-label pull-left" ></label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="checkbox clip-check check-success check-sm checkbox-inline no-margin-important" data-ng-click="setDOBReminder()">
+                                                <input type="checkbox" value="1" data-ng-checked="client.DOBReminder"/>
+                                                <label>No Birthday Reminder</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group margin-bottom-0">
+                                        <label class="col-sm-4 control-label pull-left" ></label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="checkbox clip-check check-success check-sm checkbox-inline no-margin-important" data-ng-click="setDeceased()">
+                                                <input type="checkbox" value="1" data-ng-checked="client.deceased" />
+                                                <label>Deceased</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 panel panel-light-grey">
+                            <div class="panel-body">
+                                <h4 class="border-bottom">Additional Information</h4>
+                                <form  name="formAdditional" role="form" class="form-horizontal text-extra-small">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >HOME PHONE</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" name="homePhone" data-ng-model="clientPhone.home">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >BUSINESS PHONE</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="clientPhone.business">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >MOBILE PHONE</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="clientPhone.mobile">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >BEST TIME TO CALL</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="inline-table">
+                                                <input type="text" class="form-control width-100" data-ng-model="clientTimeToCall">
+                                            </div>
+
+                                            <div class="inline-table">
+                                                <div class="input-group width-100">
+                                                    <input type="text" class="form-control " placeholder="" readonly="readonly" data-ng-model="timePeriod">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button" data-ng-click="setTimePeriod()"><i class="ti-split-v"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left" >EMAIL ADDRESS</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="clientEmail">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left">SMOKER</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="btn-group btn-group-justified">
+                                                <a class="btn btn-o btn-primary btn-sm" data-ng-class="{'active':client.smokerStatus==true}" data-ng-click="setSmoker(true)"> Yes </a>
+                                                <a class="btn btn-o btn-primary btn-sm" data-ng-class="{'active':client.smokerStatus==false}" data-ng-click="setSmoker(false)"> No </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left">OCCUPATION</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="clientOccupation">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left"></label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <div class="input-group inline-table">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle no-border-bottom no-border-left no-border-top bg-color-light-grey">OR</button>
+                                                </div><!-- /btn-group -->
+                                                <input type="text" class="form-control" placeholder="Select Class" data-ng-model="clientClass">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti-angle-down"></i> </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right width-percent-100">
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientClass(1)">Class 1</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientClass(2)">Class 2</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientClass(3)">Class 3</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientClass(4)">Class 4</a></li>
+                                                        <li><a class="cursor-pointer" data-ng-click="setClientClass(5)">Class 5</a></li>
+                                                    </ul>
+                                                    <button type="button" class="btn btn-default no-border-bottom no-border-right no-border-top bg-color-light-grey" id="class-popover" data-trigger="hover" ><i class="fa fa-question-circle font-size-15"></i></button>
+                                                </div><!-- /btn-group -->
+                                            </div><!-- /input-group -->                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label pull-left">EMPLOYER / COMPANY</label>
+                                        <div class="col-sm-8 padding-right-0">
+                                            <input type="text" class="form-control" data-ng-model="clientEmployer">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 panel panel-light-grey">
+                            <div class="panel-body">
+                                <h4 class="border-bottom">Client Notes</h4>
+                                <textarea rows="27" class="form-control" data-ng-model="client.notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="popover-content" class="hidden">
+    <div class="row">
+        <div class="col-md-12">
+            <b>CLASS SELECTION GUIDE</b>
+            <hr />
+            <p>Here is a rough guide for selection an occupation class. In over under beast seed He. Thing Second stars green there gathering living.</p>
+            <span class="label label-purple">Class 1</span> <span>Professionals (usally tertiary qualified) typically earning over $80,000 anually</span><br />
+            <span class="label label-purple">Class 2</span> <span>Skilled trades people (for example a qualified builder) or non-desk based workers (for example technician, shopkeeper etc.)</span><br />
+            <span class="label label-purple">Class 3</span> <span>Professionals (usually tertiary qualified) typically earning over $80,000 annually.</span><br />
+            <span class="label label-purple">Class 4</span> <span>Housewife / Househusband / Student</span><br />
+            <span class="label label-purple">Class 5</span> <span>Housewife / Househusband / Student</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        // Enables popover #1
+        $("[data-toggle=popover]").popover({
+            container: 'body'
+        });
+
+        // Enables popover #2
+        $("#class-popover").popover({
+            html: true,
+            content: function () {
+                return $("#popover-content").html();
+            }
+        });
+    });
+
+</script>

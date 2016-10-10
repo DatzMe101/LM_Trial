@@ -1,0 +1,56 @@
+﻿<div class="wrap-content container angular-views-margin" id="container">
+    <div class="col-md-12">
+        <h2 class="inline-table">My Contacts</h2>
+        <span class="inline-table margin-left-30">{{totalContact}} Total Contacts | Last Updated Yesterday June 4, 2016</span>
+        <div class="pull-right">
+            <button class="btn btn-success"><i class="ti-plus"></i> Add Contacts</button>
+            <button class="btn btn-primary"><img src="assets/crm_icons/merge.svg" class="icon-size-20" /> Merge Contacts</button>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <table class="alphabet-page pull-left margin-top-40 margin-right-10 cursor-pointer">
+                    <tr data-ng-repeat="char in letters"><td class="text-center" data-ng-click="setCurrentLetter(char)"><span data-ng-class="{'badge badge-success':char==currentLetter}">{{char}}</span></td></tr>
+                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="sample_2">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:10px"><input type="checkbox" /></th>
+                                <th data-ng-click="SetOrder('FamilyFullName')"><span class="{{sortIcon}} pull-right" data-ng-show="order=='FamilyFullName' && contactList.length!=0"></span>Family Name</th>
+                                <th data-ng-click="SetOrder('City')"><span class="{{sortIcon}} pull-right" data-ng-show="order=='City' && contactList.length!=0"></span>City</th>
+                                <th data-ng-click="SetOrder('Contact')"><span class="{{sortIcon}} pull-right" data-ng-show="order=='Contact' && contactList.length!=0"></span>Contact #</th>
+                                <th data-ng-click="SetOrder('Adviser')"><span class="{{sortIcon}} pull-right" data-ng-show="order=='Adviser' && contactList.length!=0"></span>Adviser</th>
+                                <th data-ng-click="SetOrder('ClientType')"><span class="{{sortIcon}} pull-right" data-ng-show="order=='ClientType' && contactList.length!=0"></span>Client Type</th>
+                                <th colspan="4" style="width:215px !important;padding-right:0">
+                                    <div class="input-group">
+                                        <input type="text" data-ng-model="searchContact" class="form-control" placeholder="Search Contacts" style="border-right:none;border-color:#808080!important;background-color:white !important">
+                                        <span class="input-group-addon" style="background-color:white;border-left:none;color:black;border-color:#808080;border-radius:0"><i class="fa fa-search"></i></span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="cursor-pointer">
+                            <tr data-ng-hide="contactList.length>0">
+                                <td colspan="11" class="text-center">No Contact Available</td>
+                            </tr>
+                            <tr data-ng-repeat="data in contactList | filter:searchContact | orderBy:order:reversed" data-ng-click="gotoDetail(data.FamilyID,data.FamilyFullName)">
+                                <td><input type="checkbox" /></td>
+                                <td>{{data.FamilyFullName}}</td>
+                                <td>{{data.City}}</td>
+                                <td>{{data.Contact}}</td>
+                                <td>{{data.Adviser}}</td>
+                                <td>{{data.ClientType}}</td>
+                                <td class="text-center" style="width:5px"><i class="fa fa-share"></i></td>
+                                <td class="text-center" style="width:5px"><i class="fa fa-edit"></i></td>
+                                <td class="text-center" style="width:5px"><i class="fa fa-trash-o"></i></td>
+                                <td style="width:200px"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
